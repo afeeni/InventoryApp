@@ -31,50 +31,41 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
-import com.example.android.pets.data.InventoryContract.InvEntry;
-import com.example.android.pets.data.InventoryDbHelper;
+import com.example.android.Inventory.data.InventoryContract.InventoryEntry;
+import com.example.android.Inventory.data.InventoryDbHelper;
 
-/**
- * Allows user to create a new pet or edit an existing one.
- */
+
 public class EditorActivity extends AppCompatActivity {
 
-    /** EditText field to enter the pet's name */
-    private EditText mGameEditText;
 
-    /** EditText field to enter the pet's breed */
+    private EditText mNameEditText;
+
+
     private Spinner mConsoleSpinner;
 
-    /** EditText field to enter the pet's weight */
+
     private EditText mYearEditText;
 
 
-    /**
-     * Gender of the pet. The possible valid values are in the PetContract.java file:
-     * {@link PetEntry#GENDER_UNKNOWN}, {@link PetEntry#GENDER_MALE}, or
-     * {@link PetEntry#GENDER_FEMALE}.
-     */
-    private int mYear = InvEntry.YEAR_UNKNOWN;
+//
+//
+ private int mConsole = InventoryEntry.CONSOLE_UNKNOWN;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        // Find all relevant views that we will need to read user input from
-        mGameEditText = (EditText) findViewById(R.id.edit_pet_name);
+        mNameEditText = (EditText) findViewById(R.id.edit_game_name);
         mConsoleSpinner = (Spinner) findViewById(R.id.spinner_console);
-        mYearEditText = (EditText) findViewById(R.id.edit_pet_weight);
+        mYearEditText = (EditText) findViewById(R.id.edit_game_year);
 
         setupSpinner();
     }
 
-    /**
-     * Setup the dropdown spinner that allows the user to select the gender of the pet.
-     */
+
     private void setupSpinner() {
-        // Create adapter for spinner. The list options are from the String array it will use
-        // the spinner will use the default layout
         ArrayAdapter consoleSpinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.array_console_options, android.R.layout.simple_spinner_item);
 
@@ -90,14 +81,14 @@ public class EditorActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
-                    if (selection.equals(getString(R.string.gender_male))) {
-                        mConsole = InvEntry.GENDER_MALE;
-                    } else if (selection.equals(getString(R.string.gender_female))) {
-                        mConsole = InvEntry.GENDER_FEMALE;
-                    }else if (selection.equals(getString(R.string.gender_female))) {
-                            mConsole = InvEntry.GENDER_FEMALE;
+                    if (selection.equals(getString(R.string.Playstation))) {
+                        mConsole = InventoryEntry.PLAYSTATION;
+                    } else if (selection.equals(getString(R.string.Xbox))) {
+                        mConsole = InventoryEntry.XBOX;
+                    }else if (selection.equals(getString(R.string.PC))) {
+                            mConsole = InventoryEntry.PC;
                     } else {
-                        mConsole = InvEntry.GENDER_UNKNOWN;
+                        mConsole = InventoryEntry.CONSOLE_UNKNOWN;
                     }
                 }
             }
@@ -105,7 +96,7 @@ public class EditorActivity extends AppCompatActivity {
             // Because AdapterView is an abstract class, onNothingSelected must be defined
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                mConsole = InvEntry.GENDER_UNKNOWN;
+                mConsole = InventoryEntry.CONSOLE_UNKNOWN;
             }
         });
     }
@@ -113,13 +104,11 @@ public class EditorActivity extends AppCompatActivity {
     /**
      * Get user input from editor and save new pet into database.
      */
-    private void insertPet() {
+    private void insertGame() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
-        String nameString = mNameEditText.getText().toString().trim();
-        String breedString = mBreedEditText.getText().toString().trim();
-        String weightString = mWeightEditText.getText().toString().trim();
-        int weight = Integer.parseInt(weightString);
+        String gameString = mNameEditText.getText().toString().trim();
+        String yearString = mYearEditText.getText().toString().trim();
 
         // Create database helper
         InventoryDbHelper mDbHelper = new InventoryDbHelper(this);
@@ -130,21 +119,21 @@ public class EditorActivity extends AppCompatActivity {
         // Create a ContentValues object where column names are the keys,
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
-        values.put(InvEntry.COLUMN_GAME_NAME, gameString);
-        values.put(InvEntry.COLUMN_GAME_CONSOLE, consoleString);
-        values.put(InvEntry.COLUMN_GAME_YEAR, mYear);
+        values.put(InventoryEntry.COLUMN_GAME_NAME, gameString);
+        values.put(InventoryEntry.COLUMN_GAME_YEAR, yearString);
+        values.put(InventoryEntry.COLUMN_GAME_CONSOLE, mConsole);
 
 
         // Insert a new row for pet in the database, returning the ID of that new row.
-        long newRowId = db.insert(InvEntry.TABLE_NAME, null, values);
+        long newRowId = db.insert(InventoryEntry.TABLE_NAME, null, values);
 
         // Show a toast message depending on whether or not the insertion was successful
         if (newRowId == -1) {
             // If the row ID is -1, then there was an error with insertion.
-            Toast.makeText(this, "Error with saving pet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error with saving game", Toast.LENGTH_SHORT).show();
         } else {
             // Otherwise, the insertion was successful and we can display a toast with the row ID.
-            Toast.makeText(this, "Pet saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Game saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -163,7 +152,7 @@ public class EditorActivity extends AppCompatActivity {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
                 // Save pet to database
-                insertPet();
+                insertGame();
                 // Exit activity
                 finish();
                 return true;

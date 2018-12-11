@@ -17,68 +17,28 @@ package com.example.android.Inventory.data;
 
 import android.provider.BaseColumns;
 
-/**
- * API Contract for the Pets app.
- */
+
 public final class InventoryContract {
 
     // To prevent someone from accidentally instantiating the contract class,
     // give it an empty constructor.
     private InventoryContract() {}
 
-    /**
-     * Inner class that defines constant values for the pets database table.
-     * Each entry in the table represents a single pet.
-     */
-    public static final class InvEntry implements BaseColumns {
 
-        /** Name of database table for pets */
-        public final static String TABLE_NAME = "pets";
+    public static final class InventoryEntry implements BaseColumns {
 
-        /**
-         * Unique ID number for the pet (only for use in the database table).
-         *
-         * Type: INTEGER
-         */
+       public final static String TABLE_NAME = "games";
+
         public final static String _ID = BaseColumns._ID;
+        public final static String COLUMN_GAME_NAME ="name";
+        public final static String COLUMN_GAME_CONSOLE = "console";
+        public final static String COLUMN_GAME_YEAR = "year";
 
-        /**
-         * Name of the pet.
-         *
-         * Type: TEXT
-         */
-        public final static String COLUMN_PET_NAME ="name";
 
-        /**
-         * Breed of the pet.
-         *
-         * Type: TEXT
-         */
-        public final static String COLUMN_PET_BREED = "breed";
 
-        /**
-         * Gender of the pet.
-         *
-         * The only possible values are {@link #GENDER_UNKNOWN}, {@link #GENDER_MALE},
-         * or {@link #GENDER_FEMALE}.
-         *
-         * Type: INTEGER
-         */
-        public final static String COLUMN_PET_GENDER = "gender";
-
-        /**
-         * Weight of the pet.
-         *
-         * Type: INTEGER
-         */
-        public final static String COLUMN_PET_WEIGHT = "weight";
-
-        /**
-         * Possible values for the gender of the pet.
-         */
-        public static final int GENDER_UNKNOWN = 0;
-        public static final int GENDER_MALE = 1;
-        public static final int GENDER_FEMALE = 2;
+        public static final int PLAYSTATION = 0;
+        public static final int XBOX = 1;
+        public static final int PC = 2;
     }
 
 }

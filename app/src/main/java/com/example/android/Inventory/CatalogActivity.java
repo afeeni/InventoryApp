@@ -29,7 +29,7 @@ import android.widget.TextView;
 
 import com.example.android.Inventory.EditorActivity;
 import com.example.android.Inventory.R;
-import com.example.android.Inventory.data.InventoryContract.InvEntry;
+import com.example.android.Inventory.data.InventoryContract.InventoryEntry;
 import com.example.android.Inventory.data.InventoryDbHelper;
 
 /**
@@ -77,15 +77,14 @@ public class CatalogActivity extends AppCompatActivity {
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
-                InvEntry._ID,
-                InvEntry.COLUMN_PET_NAME,
-                InvEntry.COLUMN_PET_BREED,
-                InvEntry.COLUMN_PET_GENDER,
-                InvEntry.COLUMN_PET_WEIGHT };
+                InventoryEntry._ID,
+                InventoryEntry.COLUMN_GAME_NAME,
+                InventoryEntry.COLUMN_GAME_CONSOLE,
+                InventoryEntry.COLUMN_GAME_YEAR,};
 
         // Perform a query on the pets table
         Cursor cursor = db.query(
-                InvEntry.TABLE_NAME,   // The table to query
+                InventoryEntry.TABLE_NAME,   // The table to query
                 projection,            // The columns to return
                 null,                  // The columns for the WHERE clause
                 null,                  // The values for the WHERE clause
@@ -93,7 +92,7 @@ public class CatalogActivity extends AppCompatActivity {
                 null,                  // Don't filter by row groups
                 null);                   // The sort order
 
-        TextView displayView = (TextView) findViewById(R.id.text_view_pet);
+        TextView displayView = (TextView) findViewById(R.id.text_view_game);
 
         try {
             // Create a header in the Text View that looks like this:
@@ -103,19 +102,17 @@ public class CatalogActivity extends AppCompatActivity {
             //
             // In the while loop below, iterate through the rows of the cursor and display
             // the information from each column in this order.
-            displayView.setText("The pets table contains " + cursor.getCount() + " pets.\n\n");
-            displayView.append(InvEntry._ID + " - " +
-                    InvEntry.COLUMN_PET_NAME + " - " +
-                    InvEntry.COLUMN_PET_BREED + " - " +
-                    InvEntry.COLUMN_PET_GENDER + " - " +
-                    InvEntry.COLUMN_PET_WEIGHT + "\n");
+            displayView.setText("The games table contains " + cursor.getCount() + " games.\n\n");
+            displayView.append(InventoryEntry._ID + " - " +
+                    InventoryEntry.COLUMN_GAME_NAME + " - " +
+                    InventoryEntry.COLUMN_GAME_CONSOLE + " - " +
+                    InventoryEntry.COLUMN_GAME_YEAR + "\n");
 
             // Figure out the index of each column
-            int idColumnIndex = cursor.getColumnIndex(InvEntry._ID);
-            int nameColumnIndex = cursor.getColumnIndex(InvEntry.COLUMN_PET_NAME);
-            int breedColumnIndex = cursor.getColumnIndex(InvEntry.COLUMN_PET_BREED);
-            int genderColumnIndex = cursor.getColumnIndex(InvEntry.COLUMN_PET_GENDER);
-            int weightColumnIndex = cursor.getColumnIndex(InvEntry.COLUMN_PET_WEIGHT);
+            int idColumnIndex = cursor.getColumnIndex(InventoryEntry._ID);
+            int nameColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_GAME_NAME);
+            int consoleColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_GAME_CONSOLE);
+            int yearColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_GAME_YEAR);
 
             // Iterate through all the returned rows in the cursor
             while (cursor.moveToNext()) {
@@ -123,15 +120,15 @@ public class CatalogActivity extends AppCompatActivity {
                 // at the current row the cursor is on.
                 int currentID = cursor.getInt(idColumnIndex);
                 String currentName = cursor.getString(nameColumnIndex);
-                String currentBreed = cursor.getString(breedColumnIndex);
-                int currentGender = cursor.getInt(genderColumnIndex);
-                int currentWeight = cursor.getInt(weightColumnIndex);
+                int currentConsole = cursor.getInt(consoleColumnIndex);
+                String currentYear = cursor.getString(yearColumnIndex);
+
+
                 // Display the values from each column of the current row in the cursor in the TextView
                 displayView.append(("\n" + currentID + " - " +
                         currentName + " - " +
-                        currentBreed + " - " +
-                        currentGender + " - " +
-                        currentWeight));
+                        currentConsole + " - " +
+                        currentYear + " - " ));
             }
         } finally {
             // Always close the cursor when you're done reading from it. This releases all its
@@ -150,11 +147,9 @@ public class CatalogActivity extends AppCompatActivity {
         // Create a ContentValues object where column names are the keys,
         // and Toto's pet attributes are the values.
         ContentValues values = new ContentValues();
-        values.put(InvEntry.COLUMN_PET_NAME, "Toto");
-        values.put(InvEntry.COLUMN_PET_BREED, "Terrier");
-        values.put(InvEntry.COLUMN_PET_GENDER, InvEntry.GENDER_MALE);
-        values.put(InvEntry.COLUMN_PET_WEIGHT, 7);
-
+        values.put(InventoryEntry.COLUMN_GAME_NAME, "Toto");
+        values.put(InventoryEntry.COLUMN_GAME_CONSOLE, InventoryEntry.PLAYSTATION);
+        values.put(InventoryEntry.COLUMN_GAME_YEAR, "Terrier");
         // Insert a new row for Toto in the database, returning the ID of that new row.
         // The first argument for db.insert() is the pets table name.
         // The second argument provides the name of a column in which the framework
@@ -162,7 +157,7 @@ public class CatalogActivity extends AppCompatActivity {
         // this is set to "null", then the framework will not insert a row when
         // there are no values).
         // The third argument is the ContentValues object containing the info for Toto.
-        long newRowId = db.insert(InvEntry.TABLE_NAME, null, values);
+        long newRowId = db.insert(InventoryEntry.TABLE_NAME, null, values);
     }
 
     @Override
