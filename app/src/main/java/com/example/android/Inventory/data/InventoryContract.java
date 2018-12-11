@@ -35,10 +35,10 @@ public final class InventoryContract {
         public final static String COLUMN_GAME_YEAR = "year";
 
 
-
-        public static final int PLAYSTATION = 0;
-        public static final int XBOX = 1;
-        public static final int PC = 2;
+        public static final int CONSOLE_UNKNOWN = 0;
+        public static final int PLAYSTATION = 1;
+        public static final int XBOX = 2;
+        public static final int PC = 3;
     }
 
 }

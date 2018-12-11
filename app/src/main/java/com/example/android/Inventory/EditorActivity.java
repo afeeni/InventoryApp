@@ -48,8 +48,8 @@ public class EditorActivity extends AppCompatActivity {
 
 
 //
-//
- private int mConsole = InventoryEntry.CONSOLE_UNKNOWN;
+////
+private int mConsole = InventoryEntry.CONSOLE_UNKNOWN;
 
 
     @Override
@@ -81,11 +81,11 @@ public class EditorActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
-                    if (selection.equals(getString(R.string.Playstation))) {
+                    if (selection.equals(getString(R.string.playstation))) {
                         mConsole = InventoryEntry.PLAYSTATION;
-                    } else if (selection.equals(getString(R.string.Xbox))) {
+                    } else if (selection.equals(getString(R.string.xbox))) {
                         mConsole = InventoryEntry.XBOX;
-                    }else if (selection.equals(getString(R.string.PC))) {
+                    }else if (selection.equals(getString(R.string.pc))) {
                             mConsole = InventoryEntry.PC;
                     } else {
                         mConsole = InventoryEntry.CONSOLE_UNKNOWN;
@@ -105,8 +105,7 @@ public class EditorActivity extends AppCompatActivity {
      * Get user input from editor and save new pet into database.
      */
     private void insertGame() {
-        // Read from input fields
-        // Use trim to eliminate leading or trailing white space
+
         String gameString = mNameEditText.getText().toString().trim();
         String yearString = mYearEditText.getText().toString().trim();
 

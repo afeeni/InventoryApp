@@ -22,9 +22,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.example.android.Inventory.EditorActivity;
@@ -39,11 +41,25 @@ public class CatalogActivity extends AppCompatActivity {
 
     /** Database helper that will provide us access to the database */
     private InventoryDbHelper mDbHelper;
+    private TableLayout tableLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
+//        tableLayout=(TableLayout)findViewById(R.id.tableLayout);
+//
+//        for (int i=0;i<5;i++) {
+//            View tableRow = LayoutInflater.from(this).inflate(R.layout.activity_catalog, null, false);
+//            TextView history_display_no = (TextView) tableRow.findViewById(R.id.history_display_no);
+//            TextView history_display_date = (TextView) tableRow.findViewById(R.id.history_display_date);
+//            TextView history_display_orderid = (TextView) tableRow.findViewById(R.id.history_display_orderid);
+//
+//            history_display_no.setText(""+(i+1));
+//            history_display_date.setText("2014-02-05");
+//            history_display_orderid.setText("S0"+(i+1));
+//            tableLayout.addView(tableRow);
+//        }
 
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
